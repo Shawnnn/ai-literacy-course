@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { chapters, guide, parts, site, guideSection } from '../data/course';
+import { renderMarkdown } from '../lib/markdown';
+const render = (source: string) => renderMarkdown(source, guide, { stripTitle: false }).html;
+const catalog = guideSection('课程目录').split(/(?=^### )/m).filter((section) => section.trim());
+const audiences = render(guideSection('适合谁'));
+let reading = guideSection('怎么阅读');
+reading = reading.replace('本课程中的流程图、关系图用 **Mermaid** 语法编写，在以下软件中会自动渲染成图：', '本网站已将流程图和关系图直接呈现为图解，点击“放大查看”就能展开阅读。若你在本地阅读 Markdown 原稿，也可以使用以下工具：');
+reading = reading.replace('> 💡 如果某个软件里看到的是一段代码而不是图，说明它不支持 Mermaid，换上面任意一个即可。', '> 💡 网页中的目录、图表和测验都可以直接使用。学习进度只保存在当前浏览器，清理浏览器数据或更换设备后需要重新记录。');
+const disclaimer = guideSection('时效与免责声明').replace(/\n---[\s\S]*$/, '');
+---
+<Base title={site.title} description={guide.description} activeId="guide" isHome>
+  <main id="main" data-pagefind-body>
+    <section class="hero page-width">
+      <div class="hero-copy"><p class="eyebrow"><span class="small-spark">✳</span> 写给每一位好奇的普通人</p><h1 data-pagefind-meta="title">AI 小白通识课<span>把 AI，<br />读成<span class="ink-underline">大白话。</span></span></h1><p class="hero-description">用生活里的比喻，讲透 AI 的 15 堂课。<br />从“这是什么”，到“我也能用起来”。</p><div class="hero-actions"><a class="button button-primary" href="/learn/01/" data-continue><span data-continue-label>翻开第一章</span><Icon name="arrow" size={19} /></a><a class="text-link" href="#curriculum">先看看课程目录 <span>↓</span></a></div><p class="hero-note" data-home-progress>不用赶进度，读懂一章，就是一步。</p><div class="hero-byline"><span class="author-monogram">S.</span><div><a href={site.github} target="_blank" rel="noopener noreferrer">Shawnnn</a><span>用大白话讲透 AI 的 15 堂课</span></div><span class="edition">2026.11<br />图文课程</span></div></div>
+      <div class="hero-book-wrap" aria-label="课程封面"><span class="book-margin-note">A LITTLE CURIOSITY GOES A LONG WAY.</span><a href="/learn/01/" class="course-book" aria-label="翻开AI小白通识课第一章"><div class="book-topline"><span>给普通人的 AI 入门读物</span><Icon name="book" size={24} /></div><div class="book-cover-title">AI<span>小白通识课</span></div><div class="book-cover-rule"></div><p class="book-cover-subtitle">不讲公式，只讲比喻。<br />让每一个概念，都有生活的模样。</p><div class="book-map"><span>打地基</span><i></i><span>搭工具</span><i></i><span>用起来</span></div><div class="book-bottom"><span>Shawnnn / 著</span><span>翻开这本课 ↗</span></div></a><div class="book-footnote"><span class="orange-dot"></span> 15 堂课 · 图解 · 动手练习 · 自测</div></div>
+    </section>
+
+    <section class="audience-section page-width"><div class="audience-heading"><p class="eyebrow">IS THIS FOR YOU?</p><h2>不需要懂技术，<br />有一点好奇就好。</h2><p>写给对科技了解不多，<br />但不想被时代落下的每一个普通人。</p></div><div class="audience-list prose" set:html={audiences}></div></section>
+
+    <section id="curriculum" class="curriculum-section page-width"><div class="section-heading"><div><p class="eyebrow">THE COURSE / 课程目录</p><h2>一张地图，三段旅程。</h2></div><p>先把概念读懂，再把工具用起来。<br />按顺序学，也可以从感兴趣的一章开始。</p></div>
+      <div class="curriculum-progress"><span>你的学习旅程</span><progress data-course-progress value="0" max="15" aria-label="已完成章节"></progress><strong><span data-progress-count>0</span> / 15</strong></div>
+      {parts.map((part, index) => <section class="curriculum-part" id={part.anchor}><div class="part-heading"><div class="part-number">0{part.number}<span>PART</span></div><div><p>第{['一', '二', '三'][index]}部分 · {part.label}</p><h3>{part.title}</h3></div><span class="part-count">{chapters.filter((chapter) => chapter.part === part.number).length} 堂课</span></div><p class="part-description">{part.description}</p><div class="prose curriculum-table" set:html={render(catalog[index].replace(/^### .+\r?\n/, ''))}></div></section>)}
+      <div class="appendix-block"><div><p class="eyebrow">KEEP THESE CLOSE / 随手翻翻</p><h3>忘了一个词？<br />回来查一查。</h3></div><div class="prose appendix-links" set:html={render(catalog[3].replace(/^### .+\r?\n/, ''))}></div></div>
+    </section>
+
+    <section class="learning-guide page-width"><div class="section-heading"><div><p class="eyebrow">HOW TO LEARN / 怎么学</p><h2>读一读，也动手试一试。</h2></div><p>不堆术语，每个新词都配英文原名和大白话解释。</p></div><div class="guide-columns"><section><h3>每一章，都陪你走过这几步</h3><div class="prose" set:html={render(guideSection('每一章'))}></div></section><section><h3>在线学习，也能保留自己的书稿</h3><div class="prose" set:html={render(reading)}></div></section></div><section class="roadmap-section"><div><p class="eyebrow">THE BIG PICTURE</p><h3>想先看全貌？展开这张学习地图。</h3></div><div class="prose roadmap" set:html={render(guideSection('学习路线图'))}></div></section></section>
+
+    <section class="closing-section page-width"><p class="eyebrow">YOUR FIRST STEP</p><h2>从一个小问题开始，<br />让 AI 走进你的生活。</h2><a class="button button-primary" href="/learn/01/" data-continue><span data-continue-label>翻开第一章</span><Icon name="arrow" /></a></section>
+    <aside class="disclaimer page-width"><h2>关于内容时效与使用边界</h2><div class="prose" set:html={render(disclaimer)}></div></aside>
+  </main>
+</Base>

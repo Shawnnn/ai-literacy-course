@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/course';
+const path = Astro.url.pathname;
+---
+<header class="site-header" data-pagefind-ignore>
+  <div class="header-inner">
+    <a href="/" class="brand" aria-label="AI小白通识课首页"><span class="brand-symbol"><Icon name="book" size={22} /></span><span>{site.title}<small>AI, IN PLAIN WORDS.</small></span></a>
+    <nav class="top-nav" aria-label="网站导航">
+      <a href="/#curriculum" class:list={[{ active: path.startsWith('/learn/') } ]}>课程目录</a>
+      <a href="/glossary/" class:list={[{ active: path === '/glossary/' } ]}>术语速查</a>
+      <a href="/references/" class:list={[{ active: path === '/references/' } ]}>参考资料</a>
+    </nav>
+    <div class="header-actions"><button class="search-trigger" type="button" data-open-search aria-haspopup="dialog" aria-controls="search-dialog"><Icon name="search" size={18} /><span>搜一个概念</span><kbd>⌘ K</kbd></button><button type="button" class="icon-button mobile-menu-trigger" data-open-menu aria-label="打开课程目录" aria-haspopup="dialog" aria-controls="menu-dialog"><Icon name="menu" /></button></div>
+  </div>
+</header>

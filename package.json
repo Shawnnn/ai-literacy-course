@@ -1,0 +1,33 @@
+{
+  "name": "ai-literacy-course",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI小白通识课 — 用大白话讲透AI的15堂课",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "node scripts/verify.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:browser": "node scripts/browser-check.mjs"
+  },
+  "engines": {
+    "node": "26.x"
+  },
+  "dependencies": {
+    "astro": "7.4.12",
+    "github-slugger": "2.0.0",
+    "highlight.js": "11.12.0",
+    "markdown-it": "15.0.3",
+    "mermaid": "12.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "cheerio": "1.2.0",
+    "pagefind": "1.6.0",
+    "playwright": "1.65.1",
+    "sharp": "0.35.5",
+    "typescript": "7.0.2"
+  }
+}

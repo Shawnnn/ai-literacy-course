@@ -1,0 +1,9 @@
+---
+import Reader from '../../components/Reader.astro';
+import { chapters } from '../../data/course';
+export function getStaticPaths() {
+  return chapters.map((entry) => ({ params: { chapter: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<Reader entry={entry} />

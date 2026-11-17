@@ -1,0 +1,33 @@
+---
+import Header from '../components/Header.astro';
+import Dialogs from '../components/Dialogs.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/course';
+import '../styles/global.css';
+interface Props { title: string; description: string; activeId?: string; isHome?: boolean; noindex?: boolean; }
+const { title, description, activeId, isHome = false, noindex = false } = Astro.props;
+const fullTitle = isHome ? `${site.title} · ${site.subtitle}` : `${title} — ${site.title}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const shareImage = Astro.site ? new URL('/share-cover.png', Astro.site).href : '/share-cover.png';
+const buildDate = new Intl.DateTimeFormat('zh-CN', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title><meta name="description" content={description} /><meta name="author" content={site.author} /><meta name="theme-color" content="#f7f6f0" />
+    {noindex && <meta name="robots" content="noindex" />}{canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content={isHome ? 'website' : 'article'} /><meta property="og:locale" content="zh_CN" /><meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:site_name" content={site.title} /><meta property="og:image" content={shareImage} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />{canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={fullTitle} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={shareImage} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body data-entry={activeId} class:list={[{ 'home-page': isHome }]}>
+    <a href="#main" class="skip-link">跳到正文</a>
+    <Header /><div class="reading-line" aria-hidden="true"></div>
+    <slot />
+    <footer class="site-footer" data-pagefind-ignore><div class="footer-inner"><a class="footer-brand" href="/"><Icon name="book" size={20} /><strong>{site.title}</strong><span>把概念读懂，把 AI 用起来。</span></a><div class="footer-meta"><a href={site.github} target="_blank" rel="noopener noreferrer">{site.author} <Icon name="github" size={16} /></a><span>原稿内容：{site.contentDate}</span><span>页面构建：{buildDate}</span></div></div></footer>
+    <Dialogs activeId={activeId} />
+    <noscript><p class="noscript-note">正文和测验答案可以直接阅读。启用 JavaScript 后，还可以查看图解、搜索课程和记录学习进度。</p></noscript>
+    <script>import '../scripts/site';</script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+import CourseNav from './CourseNav.astro';
+import Icon from './Icon.astro';
+const { activeId } = Astro.props;
+---
+<dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title" data-pagefind-ignore>
+  <div class="dialog-heading"><h2 id="search-title">找一个概念，继续探索。</h2><button type="button" class="icon-button" data-close-dialog aria-label="关闭搜索"><Icon name="close" /></button></div>
+  <form class="search-form" role="search"><Icon name="search" /><label class="sr-only" for="course-search">搜索课程全文</label><input id="course-search" type="search" placeholder="试试“提示词”、Token 或 MCP" autocomplete="off" autofocus /><kbd>Esc</kbd></form>
+  <div class="search-suggestions"><span>从这里开始</span>{['提示词', '知识库', 'Token', 'MCP'].map((keyword) => <button type="button" data-search-term={keyword}>{keyword}</button>)}</div>
+  <p class="search-status" role="status" aria-live="polite" id="search-status">在 15 章课程和附录里，找到你需要的答案。</p>
+  <div id="search-results" class="search-results"></div>
+  <footer class="search-footer">搜索课程全文<span>↑ ↓ 选择 · Enter 打开 · Esc 关闭</span></footer>
+</dialog>
+<dialog id="menu-dialog" class="menu-dialog" aria-labelledby="menu-title" data-pagefind-ignore>
+  <div class="dialog-heading"><h2 id="menu-title">这本课的目录</h2><button type="button" class="icon-button" data-close-dialog aria-label="关闭课程目录"><Icon name="close" /></button></div>
+  <CourseNav activeId={activeId} />
+</dialog>
+<dialog id="diagram-dialog" class="diagram-dialog" aria-labelledby="diagram-title" data-pagefind-ignore>
+  <div class="dialog-heading"><h2 id="diagram-title">把图展开，慢慢看。</h2><div class="diagram-controls"><button type="button" class="icon-button" data-zoom-out aria-label="缩小图表">−</button><output id="diagram-zoom" aria-live="polite">100%</output><button type="button" class="icon-button" data-zoom-in aria-label="放大图表">＋</button><button type="button" class="icon-button" data-close-dialog aria-label="关闭图表"><Icon name="close" /></button></div></div>
+  <div class="diagram-canvas" tabindex="0" aria-label="放大后的图表，可左右和上下滚动"></div>
+  <p class="diagram-help">超出屏幕的部分可以滚动查看 · 按 Esc 返回课程</p>
+</dialog>
+<div class="toast" role="status" aria-live="polite" id="toast"></div>

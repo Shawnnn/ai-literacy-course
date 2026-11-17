@@ -1,0 +1,12 @@
+---
+import { chapters, parts } from '../data/course';
+const { activeId } = Astro.props;
+---
+<div class="course-navigation">
+  <a class="nav-overview" href="/">← 课程导读</a>
+  <div class="nav-progress"><div><span>我的学习进度</span><strong><span data-progress-count>0</span><small> / 15</small></strong></div><progress data-course-progress value="0" max="15" aria-label="课程完成进度"></progress><p>慢慢来，每一章都是一步。</p></div>
+  <nav aria-label="课程章节">
+    {parts.map((part) => <section class="nav-group"><h2><span>0{part.number}</span>{part.label}<small>{part.title}</small></h2><ol>{chapters.filter((chapter) => chapter.part === part.number).map((chapter) => <li><a href={chapter.url} class:list={['chapter-nav-link', { current: activeId === chapter.id }]} aria-current={activeId === chapter.id ? 'page' : undefined} data-chapter-link={chapter.id}><span class="chapter-number">{chapter.id}</span><span>{chapter.shortTitle}</span><span class="completion-dot" data-completion-id={chapter.id} aria-hidden="true"></span></a></li>)}</ol></section>)}
+    <div class="nav-appendices"><a href="/glossary/" aria-current={activeId === 'glossary' ? 'page' : undefined}><span>A</span>术语速查表</a><a href="/references/" aria-current={activeId === 'references' ? 'page' : undefined}><span>B</span>参考资料与延伸阅读</a></div>
+  </nav>
+</div>

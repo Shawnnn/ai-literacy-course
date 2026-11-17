@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import CourseNav from './CourseNav.astro';
+import Icon from './Icon.astro';
+import { entries, parts, site, type CourseEntry } from '../data/course';
+import { renderEntry } from '../lib/markdown';
+interface Props { entry: CourseEntry; }
+const { entry } = Astro.props;
+const { title, html, headings } = renderEntry(entry);
+const part = parts.find((value) => value.number === entry.part);
+const entryIndex = entries.findIndex((value) => value.id === entry.id);
+const previous = entries[entryIndex - 1];
+const next = entries[entryIndex + 1];
+const displayTitle = title.replace(/^第\d+章\s*/, '').replace(/^附录[A-B]\s*/, '');
+---
+<Base title={title} description={entry.description} activeId={entry.id}>
+  <div class="reader-grid">
+    <aside class="left-sidebar" data-pagefind-ignore><CourseNav activeId={entry.id} /></aside>
+    <main id="main" class="reader-main">
+      <div class="reader-breadcrumb" data-pagefind-ignore><a href="/">课程首页</a><span>/</span><span>{part ? `${part.label} · ${part.title}` : '随手查阅'}</span></div>
+      <article data-pagefind-body>
+        <header class="reader-heading"><p class="eyebrow">{entry.number ? `LESSON ${entry.id} / 15` : entry.id === 'glossary' ? 'APPENDIX A' : 'APPENDIX B'}<span>{part?.label || '附录'}</span></p><h1 data-pagefind-meta="title">{displayTitle}</h1><div class="reader-meta"><span>{entry.number ? `第 ${entry.number} 章` : '参考手册'}</span><span>原稿 · {site.contentDate}</span><span>Shawnnn</span></div></header>
+        <details class="mobile-toc" data-pagefind-ignore><summary>这一章，读什么 <Icon name="chevron" size={16} /></summary><nav aria-label="本章目录（移动端）">{headings.map((heading) => <a href={`#${heading.id}`} class:list={[{ 'toc-sub': heading.level === 3 }]}>{heading.text}</a>)}</nav></details>
+        <div class:list={['prose', 'lesson-content', { 'glossary-content': entry.id === 'glossary' }]} set:html={html}></div>
+      </article>
+      {entry.number && <section class="lesson-complete" data-pagefind-ignore><div><p class="eyebrow">ONE STEP FURTHER</p><h2>这一章，你又多懂了一点。</h2><p>做完练习，再为自己记下一步。</p></div><button type="button" class="button button-primary" data-toggle-complete={entry.id} aria-pressed="false"><Icon name="check" size={18} /><span data-complete-label>标记这一章已学完</span></button></section>}
+      <nav class="lesson-pagination" aria-label="上下章导航" data-pagefind-ignore>
+        <a href={previous?.url || '/'}><span>← {previous?.number ? '上一章' : '回到'}</span><strong>{previous?.shortTitle || '课程首页'}</strong></a>
+        <a href={next?.url || '/'} class="pagination-next"><span>{next?.number ? '下一章' : next ? '继续翻阅' : '回到首页'} →</span><strong>{next?.shortTitle || '课程导读'}</strong></a>
+      </nav>
+    </main>
+    <aside class="right-sidebar" data-pagefind-ignore><nav class="toc" aria-label="本章目录"><p class="toc-label">在这一章</p>{headings.map((heading) => <a href={`#${heading.id}`} data-toc-link={heading.id} class:list={[{ 'toc-sub': heading.level === 3 }]}>{heading.text}</a>)}</nav><a href="#main" class="back-to-top">回到页首 ↑</a></aside>
+  </div>
+</Base>
