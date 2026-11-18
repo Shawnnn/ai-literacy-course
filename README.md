@@ -1,6 +1,6 @@
 # AI小白通识课
 
-用大白话讲透 AI 的 15 堂课。作者：**[Shawnnn](https://github.com/Shawnnn)**。
+用大白话讲透 AI 的 15 堂课。[在线学习](https://ai-literacy-course-kappa.vercel.app/)
 
 本工程将根目录原有的 18 份 Markdown 生成为静态课程网站：首页、15 个章节页、术语速查表、参考资料，以及独立的 404 页面。课程正文继续以 Markdown 为内容来源。
 
@@ -74,8 +74,6 @@ npm run preview:stop
 颜色与字体均在本地样式中配置，字体使用系统中文字体栈。网页运行不依赖外部字体或图表 CDN。分享封面已经提供 PNG 和 SVG；需要重新生成时运行 `node scripts/create-cover.mjs`。
 
 ## 上传 GitHub
-
-对应仓库：[Shawnnn/ai-literacy-course](https://github.com/Shawnnn/ai-literacy-course)（公有）。
 
 **当前工程文件夹**作为仓库根目录，包含原有 18 份 Markdown、工程源码、`package.json` 和 `package-lock.json`。后续修改后可在工程根目录提交并推送：
 

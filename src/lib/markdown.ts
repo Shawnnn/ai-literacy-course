@@ -15,6 +15,17 @@ hljs.registerLanguage('markdown', markdown);
 export type Heading = { id: string; text: string; level: number };
 export const escapeHtml = (value: string): string => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]!));
 
+const publicWording = [
+  ['GitHub / Gitee', '支持 Mermaid 的代码托管平台'],
+  ['；GitHub 的个人访问令牌', ''],
+  ['在 GitHub 爆火', '在开源社区走红'],
+  ['飞书、Gmail、GitHub？', '飞书、Gmail、代码托管平台？'],
+  ['GitHub MCP Server', '用于代码托管的 MCP Server'],
+  ['支付宝、GitHub、Notion', '支付宝、Notion'],
+  ['GitHub热门AI项目', '热门开源 AI 项目'],
+  ['在 GitHub 上爆火', '在开源社区走红'],
+] as const;
+
 const md = new MarkdownIt({ html: true, linkify: true, typographer: false });
 const originalLinkOpen = md.renderer.rules.link_open || ((tokens, index, options, _env, self) => self.renderToken(tokens, index, options));
 md.renderer.rules.link_open = (tokens, index, options, env, self) => {
@@ -45,6 +56,7 @@ function inlineText(token: Token): string {
 }
 
 export function renderMarkdown(source: string, entry: CourseEntry, options: { stripTitle?: boolean; stripNavigation?: boolean } = {}) {
+  for (const [original, wording] of publicWording) source = source.replaceAll(original, wording);
   let tokens = md.parse(source, {});
   if (options.stripNavigation !== false) {
     for (let index = tokens.length - 3; index >= 0; index--) {

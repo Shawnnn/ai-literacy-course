@@ -12,7 +12,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 <path d="M349 403h235" stroke="#bdc8a6" stroke-width="7"/>
 <text x="70" y="458" font-size="23" fill="#68705f">用生活里的比喻，讲透 AI 的 15 堂课。</text>
 <text x="70" y="526" font-size="18" fill="#3c614d">打地基  /  搭工具  /  用起来</text>
-<text x="70" y="596" font-size="15" fill="#73796d">Shawnnn</text>
+<text x="70" y="596" font-size="15" fill="#73796d">图解 · 练习 · 自测</text>
 <text x="1130" y="596" font-size="14" text-anchor="end" fill="#73796d">2026.11 · 图文课程</text>
 </g>
 <g transform="translate(820 135) rotate(5 135 185)">
@@ -26,7 +26,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 <path d="M35 242h200" stroke="#a9b997"/>
 <text x="35" y="277" font-size="13">不讲公式，只讲比喻。</text>
 <text x="35" y="301" font-size="13">让每一个概念，都有生活的模样。</text>
-<text x="35" y="345" font-size="11">Shawnnn / 著</text>
+<text x="35" y="345" font-size="11">课程图文版</text>
 </g></g></svg>`;
 
 await mkdir('public', { recursive: true });

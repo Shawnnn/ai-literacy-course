@@ -19,7 +19,7 @@ const displayTitle = title.replace(/^第\d+章\s*/, '').replace(/^附录[A-B]\s*
     <main id="main" class="reader-main">
       <div class="reader-breadcrumb" data-pagefind-ignore><a href="/">课程首页</a><span>/</span><span>{part ? `${part.label} · ${part.title}` : '随手查阅'}</span></div>
       <article data-pagefind-body>
-        <header class="reader-heading"><p class="eyebrow">{entry.number ? `LESSON ${entry.id} / 15` : entry.id === 'glossary' ? 'APPENDIX A' : 'APPENDIX B'}<span>{part?.label || '附录'}</span></p><h1 data-pagefind-meta="title">{displayTitle}</h1><div class="reader-meta"><span>{entry.number ? `第 ${entry.number} 章` : '参考手册'}</span><span>原稿 · {site.contentDate}</span><span>Shawnnn</span></div></header>
+        <header class="reader-heading"><p class="eyebrow">{entry.number ? `LESSON ${entry.id} / 15` : entry.id === 'glossary' ? 'APPENDIX A' : 'APPENDIX B'}<span>{part?.label || '附录'}</span></p><h1 data-pagefind-meta="title">{displayTitle}</h1><div class="reader-meta"><span>{entry.number ? `第 ${entry.number} 章` : '参考手册'}</span><span>原稿 · {site.contentDate}</span></div></header>
         <details class="mobile-toc" data-pagefind-ignore><summary>这一章，读什么 <Icon name="chevron" size={16} /></summary><nav aria-label="本章目录（移动端）">{headings.map((heading) => <a href={`#${heading.id}`} class:list={[{ 'toc-sub': heading.level === 3 }]}>{heading.text}</a>)}</nav></details>
         <div class:list={['prose', 'lesson-content', { 'glossary-content': entry.id === 'glossary' }]} set:html={html}></div>
       </article>

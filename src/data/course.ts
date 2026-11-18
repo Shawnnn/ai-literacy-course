@@ -14,8 +14,6 @@ export type CourseEntry = {
 export const site = {
   title: 'AI小白通识课',
   subtitle: '用大白话讲透AI的15堂课',
-  author: 'Shawnnn',
-  github: 'https://github.com/Shawnnn',
   contentDate: '2026 年 11 月',
 };
 
